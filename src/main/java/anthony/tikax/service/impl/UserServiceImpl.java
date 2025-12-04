@@ -14,12 +14,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
-            throw new RuntimeException("用户名或密码不能为空");
-        }
+        usernameAndPasswordNotNull(username, password);
         Boolean result = userMapper.existsByUsername(username);
         if (result) {
-            throw new RuntimeException("用户已存在");
+            throw new RuntimeException("用户名已存在");
         }
         String encodedPassword = BcryptUtil.encode(password);
         try {
@@ -29,6 +27,22 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public void login(String username, String password) {
+        usernameAndPasswordNotNull(username, password);
 
+        String encodedPassword = userMapper.getPasswordByUsername(username);
+        boolean result = BcryptUtil.matches(password, encodedPassword);
+
+        if (!result) {
+            throw new RuntimeException("用户名或密码错误");
+        }
+    }
+
+    public void usernameAndPasswordNotNull(String username, String password) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            throw new RuntimeException("用户名或密码不能为空");
+        }
+    }
 
 }

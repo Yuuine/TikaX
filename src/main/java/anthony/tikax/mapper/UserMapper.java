@@ -10,4 +10,7 @@ public interface UserMapper {
 
     @Select("INSERT INTO users (username, password) VALUES (#{username}, #{encodedPassword})")
     void registerUser(String username, String encodedPassword);
+
+    @Select("SELECT password FROM users WHERE username = #{username}")
+    String getPasswordByUsername(String username);
 }
