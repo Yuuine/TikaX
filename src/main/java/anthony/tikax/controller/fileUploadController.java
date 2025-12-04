@@ -1,0 +1,15 @@
+package anthony.tikax.controller;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+
+@Slf4j
+@Controller
+public class fileUploadController {
+    /**
+     * 文件上传
+     * @param file
+     * @return
+     */
+
+}
