@@ -4,6 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
+
+    //用户相关异常
+    USERNAME_ALREADY_EXIST(1001, "用户名已存在"),
+    REGISTER_FAILED(1002, "注册失败"),
+    LOGIN_FAILED(1003, "登录失败"),
+    USERNAME_OR_PASSWORD_ERROR(1004, "用户名或密码错误"),
+    USERNAME_OR_PASSWORD_NOT_NULL(1005, "用户名和密码不能为空"),
     ;
 
     private final int code;
