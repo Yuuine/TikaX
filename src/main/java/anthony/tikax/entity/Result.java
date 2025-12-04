@@ -28,11 +28,11 @@ public class Result<T> {
         return new Result<>(0, "success", null);
     }
 
-    public static Result<Void> error(String message) {
+    public static Result<Object> error(String message) {
         return new Result<>(1, message, null);
     }
 
-    public static Result<Void> error(int code, String message) {
+    public static Result<Object> error(int code, String message) {
         return new Result<>(code, message, null);
     }
 
