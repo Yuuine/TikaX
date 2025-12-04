@@ -19,7 +19,7 @@ public class Result<T> {
      *
      * @param <E> 泛型类型，表示返回数据的类型
      * @param data 操作成功时返回的数据
-     * @return 包含成功状态码0、成功消息"操作成功"和返回数据的Result对象
+     * @return 包含成功状态码0、成功消息"success"和返回数据的Result对象
      */
     public static <E> Result<E> success(E data) {
         return new Result<>(0, "success", data);
@@ -28,11 +28,11 @@ public class Result<T> {
         return new Result<>(0, "success", null);
     }
 
-    public static Result<Object> error(String message) {
+    public static Result<Void> error(String message) {
         return new Result<>(1, message, null);
     }
 
-    public static Result<Object> error(int code, String message) {
+    public static Result<Void> error(int code, String message) {
         return new Result<>(code, message, null);
     }
 
