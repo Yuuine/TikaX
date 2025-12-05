@@ -1,4 +1,4 @@
-package anthony.tikax.domain.model;
+package anthony.tikax.domain.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
