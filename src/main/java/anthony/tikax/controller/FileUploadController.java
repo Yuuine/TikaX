@@ -6,15 +6,11 @@ import anthony.tikax.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-@RequestMapping("/file")
 public class FileUploadController {
 
     private final FileService fileService;
@@ -26,9 +22,9 @@ public class FileUploadController {
      * @return
      */
     @PostMapping("/upload")
-    public Result<Object> upload(@RequestParam("file") MultipartFile file) {
+    public Result<Object> upload(FileUploadReq fileUploadReq) {
 
-        String text = fileService.fileUpload(file);
+        String text = fileService.fileUpload(fileUploadReq);
         return Result.success(text);
     }
 }
