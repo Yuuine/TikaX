@@ -1,20 +1,26 @@
 spring:
   application:
     name: tikax
-
   security:
     user:
       name: user
       password: 123456
-      roles: ADMIN
-
+      roles: USER
   datasource:
-    url: jdbc:mysql://localhost:3306/yu_blog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/titax?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
     username: root
-    password: 123456  # ← 改成你的密码
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8080
 
 mybatis:
   configuration:
-    #驼峰映射配置
     map-underscore-to-camel-case: true
+
+minio:
+  endpoint: http://127.0.0.1:9000
+  access-key: admin
+  secret-key: password
+  bucket-name: tikax

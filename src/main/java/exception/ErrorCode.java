@@ -17,7 +17,9 @@ public enum ErrorCode {
     FILE_SIZE_TOO_LARGE(2002, "文件大小超出限制"),
     FILE_TYPE_NOT_SUPPORT(2003, "文件类型不支持"),
     FILE_UPLOAD_FAILED(2004, "文件上传失败"),
-    ;
+
+    //minio存储服务相关异常
+    MINIO_UPLOAD_ERROR(3001, "MinIO上传失败");
 
     private final int code;
     private final String message;

@@ -10,7 +10,7 @@ public class UploadFileDO {
 
     private String fileMd5;
     private String fileName;
-    private Integer totalSize;
+    private Long totalSize;
     private String fileType;
     private String extension;
     private String mimeType;
