@@ -21,7 +21,7 @@ public class FileServiceImpl implements FileService {
      *
      */
     @Override
-    public FileVO fileUpload(MultipartFile file) {
+    public FileVO fileUpload(Integer userId, MultipartFile file) {
 
         UploadFileDO uploadFileDO;
         //解析文件基本信息，将文件上传到 minio
@@ -36,8 +36,7 @@ public class FileServiceImpl implements FileService {
         }
 
         //将文件相关信息上传到数据库
-        //TODO: 添加上传者ID
-        uploadFileDO.setUserId(1);//临时写死
+        uploadFileDO.setUserId(userId);
         processFile.saveFileRecord(uploadFileDO);
 
         //解析文件

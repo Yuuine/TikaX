@@ -23,9 +23,12 @@ public class FileUploadController {
      * 文件上传
      */
     @PostMapping("/upload")
-    public Result<FileVO> upload(@RequestParam("file") MultipartFile file) {
+    public Result<FileVO> upload(
+            @RequestParam("userId") Integer userId,
+            @RequestParam("file") MultipartFile file
+    ) {
 
-        FileVO fileVO = fileService.fileUpload(file);
+        FileVO fileVO = fileService.fileUpload(userId, file);
         return Result.success(fileVO);
     }
 }

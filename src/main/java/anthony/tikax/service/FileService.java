@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface FileService {
-    FileVO fileUpload(MultipartFile file);
+    FileVO fileUpload(Integer userId, MultipartFile file);
 }
