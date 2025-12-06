@@ -1,6 +1,5 @@
 package anthony.tikax.controller;
 
-import anthony.tikax.dto.file.request.FileUploadReq;
 import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.entity.Result;
 import anthony.tikax.service.FileService;
@@ -22,9 +21,6 @@ public class FileUploadController {
 
     /**
      * 文件上传
-     *
-     * @param
-     * @return
      */
     @PostMapping("/upload")
     public Result<FileVO> upload(@RequestParam("file") MultipartFile file) {

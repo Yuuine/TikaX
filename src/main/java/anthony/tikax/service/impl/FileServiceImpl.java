@@ -3,7 +3,6 @@ package anthony.tikax.service.impl;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.ProcessFile;
 import anthony.tikax.dto.file.response.FileVO;
-import anthony.tikax.entity.Result;
 import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.service.FileService;
 import exception.BizException;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileServiceImpl implements FileService {
 
     private final ProcessFile processFile;
-    private final FileMapper fileMapper;
 
     /**
      * 文件上传
