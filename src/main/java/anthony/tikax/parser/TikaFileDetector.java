@@ -21,7 +21,7 @@ public class TikaFileDetector {
      * @param file
      * @return
      */
-    public String delectMimeType(MultipartFile file) {
+    public String detectMimeType(MultipartFile file) {
         try (InputStream is = file.getInputStream()) {
             return tika.detect(is, file.getOriginalFilename());
         } catch (Exception e) {

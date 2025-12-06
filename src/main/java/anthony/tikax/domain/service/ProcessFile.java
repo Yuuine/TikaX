@@ -5,8 +5,8 @@ import anthony.tikax.domain.spi.MinioService;
 import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.parser.TikaFileDetector;
 import anthony.tikax.utils.MD5Util;
-import exception.BizException;
-import exception.ErrorCode;
+import anthony.tikax.exception.BizException;
+import anthony.tikax.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
@@ -27,7 +28,7 @@ public class ProcessFile {
     private final MinioService minioService;
     private final FileMapper fileMapper;
 
-    public UploadFileDO processFile(MultipartFile file) throws Exception {
+    public UploadFileDO processFile(MultipartFile file) {
 
         validateFile(file);//验证文件是否合法
 
@@ -35,9 +36,20 @@ public class ProcessFile {
         String originalFilename = file.getOriginalFilename();
 
         //1. 读取文件到内存
-        byte[] fileBytes = file.getBytes();
+        byte[] fileBytes;
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            throw new BizException(ErrorCode.FILE_PROCESS_ERROR, e);
+        }
         //2.计算文件的MD5值，作为文件的新文件名
-        String md5 = md5Util.md5(file);
+        String md5;
+        try {
+            md5 = md5Util.md5(file);
+        } catch (Exception e) {
+            throw new BizException(ErrorCode.FILE_MD5_ERROR, e);
+        }
+
         //4. 上传文件到MinIO
         InputStream inputStream = new ByteArrayInputStream(fileBytes);
         minioService.uploadFile(md5, inputStream);
@@ -90,8 +102,16 @@ public class ProcessFile {
      */
     private FileMetaInfo parserFileMeta(MultipartFile file, String originalFilename, long totalSize) {
 
-        String mimeType = tikaFileDetector.delectMimeType(file);
+        String mimeType = tikaFileDetector.detectMimeType(file);
+        // 防御性处理：mimeType 为 null 或空时，设为默认值
+        if (mimeType == null || mimeType.trim().isEmpty()) {
+            mimeType = "application/octet-stream";
+        }
+
         String extension = tikaFileDetector.getExtensionFromMimeType(mimeType);
+        if (extension == null) {
+            extension = "";
+        }
 
         return new FileMetaInfo(originalFilename, totalSize, "common", extension, mimeType);
 

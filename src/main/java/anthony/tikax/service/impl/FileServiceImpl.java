@@ -3,10 +3,9 @@ package anthony.tikax.service.impl;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.ProcessFile;
 import anthony.tikax.dto.file.response.FileVO;
-import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.service.FileService;
-import exception.BizException;
-import exception.ErrorCode;
+import anthony.tikax.exception.BizException;
+import anthony.tikax.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +27,11 @@ public class FileServiceImpl implements FileService {
         //解析文件基本信息，将文件上传到 minio
         try {
             uploadFileDO = processFile.processFile(file);
-        } catch (Exception e) {
+        }
+        catch (BizException e) {
+            throw e;
+        }
+        catch (Exception e) {
             throw new BizException(ErrorCode.FILE_UPLOAD_FAILED, e);
         }
 

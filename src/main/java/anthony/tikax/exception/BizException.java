@@ -1,4 +1,4 @@
-package exception;
+package anthony.tikax.exception;
 
 import lombok.Getter;
 

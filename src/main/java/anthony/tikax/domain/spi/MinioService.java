@@ -1,7 +1,7 @@
 package anthony.tikax.domain.spi;
 
-import exception.BizException;
-import exception.ErrorCode;
+import anthony.tikax.exception.BizException;
+import anthony.tikax.exception.ErrorCode;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
