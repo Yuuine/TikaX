@@ -2,6 +2,8 @@ package anthony.tikax.service.impl;
 
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.ProcessFile;
+import anthony.tikax.dto.file.response.FileVO;
+import anthony.tikax.entity.Result;
 import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.service.FileService;
 import exception.BizException;
@@ -20,28 +22,31 @@ public class FileServiceImpl implements FileService {
     /**
      * 文件上传
      *
-     * @param file
-     * @return
      */
     @Override
-    public String fileUpload(MultipartFile file) {
+    public FileVO fileUpload(MultipartFile file) {
 
         UploadFileDO uploadFileDO;
         //解析文件基本信息，将文件上传到 minio
         try {
             uploadFileDO = processFile.processFile(file);
         } catch (Exception e) {
-            throw new BizException(ErrorCode.FILE_UPLOAD_FAILED);
+            throw new BizException(ErrorCode.FILE_UPLOAD_FAILED, e);
         }
 
         //将文件相关信息上传到数据库
         //TODO: 添加上传者ID
-        uploadFileDO.setUserId(1);
+        uploadFileDO.setUserId(1);//临时写死
         processFile.saveFileRecord(uploadFileDO);
 
         //解析文件
 
 
-        return null;
+        //构建文件返回结果
+        FileVO fileVO = new FileVO();
+        fileVO.setFileMd5(uploadFileDO.getFileMd5());
+        fileVO.setText("测试文本");//临时写死
+
+        return fileVO;
     }
 }

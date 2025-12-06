@@ -1,6 +1,7 @@
 package anthony.tikax.controller;
 
 import anthony.tikax.dto.file.request.FileUploadReq;
+import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.entity.Result;
 import anthony.tikax.service.FileService;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +27,9 @@ public class FileUploadController {
      * @return
      */
     @PostMapping("/upload")
-    public Result<Object> upload(@RequestParam("file") MultipartFile file) {
+    public Result<FileVO> upload(@RequestParam("file") MultipartFile file) {
 
-        String text = fileService.fileUpload(file);
-        return Result.success(text);
+        FileVO fileVO = fileService.fileUpload(file);
+        return Result.success(fileVO);
     }
 }
