@@ -1,4 +1,4 @@
-package exception;
+package anthony.tikax.exception;
 
 import anthony.tikax.entity.Result;
 import jakarta.servlet.http.HttpServletRequest;

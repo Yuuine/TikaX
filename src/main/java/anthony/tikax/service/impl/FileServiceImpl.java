@@ -1,77 +1,53 @@
 package anthony.tikax.service.impl;
 
-import anthony.tikax.domain.service.FileMetaInfo;
-import anthony.tikax.parser.TikaFileDetector;
+import anthony.tikax.domain.model.UploadFileDO;
+import anthony.tikax.domain.service.ProcessFile;
+import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.service.FileService;
-import anthony.tikax.utils.MD5Util;
+import anthony.tikax.exception.BizException;
+import anthony.tikax.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
-    private final TikaFileDetector tikaFileDetector;
-    private final MD5Util md5Util;
+    private final ProcessFile processFile;
 
     /**
      * 文件上传
      *
-     * @param file 文件上传请求参数
-     * @return 文件上传结果
      */
     @Override
-    public String fileUpload(MultipartFile file) {
+    public FileVO fileUpload(MultipartFile file) {
 
+        UploadFileDO uploadFileDO;
+        //解析文件基本信息，将文件上传到 minio
         try {
-            return processFile(file);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            uploadFileDO = processFile.processFile(file);
         }
-    }
-
-    //
-    @Transactional(rollbackFor = Exception.class)
-    public String processFile(MultipartFile file) throws Exception {
-    String md5 = md5Util.md5(file);
-
-
-        try {
-            //完整读取文件到字节数组
-            byte[] bytes = file.getBytes();
-            //解析文件基础信息
-            FileMetaInfo fileMetaInfo = parserFileMeta(file, bytes);
-
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        catch (BizException e) {
+            throw e;
         }
-        return "";
+        catch (Exception e) {
+            throw new BizException(ErrorCode.FILE_UPLOAD_FAILED, e);
+        }
+
+        //将文件相关信息上传到数据库
+        //TODO: 添加上传者ID
+        uploadFileDO.setUserId(1);//临时写死
+        processFile.saveFileRecord(uploadFileDO);
+
+        //解析文件
+
+
+        //构建文件返回结果
+        FileVO fileVO = new FileVO();
+        fileVO.setFileMd5(uploadFileDO.getFileMd5());
+        fileVO.setText("测试文本");//临时写死
+
+        return fileVO;
     }
-
-    /**
-     * 解析文件基础信息
-     *
-     * @param file  文件
-     * @param bytes 文件字节数组
-     * @return 文件基础信息
-     */
-    private FileMetaInfo parserFileMeta(MultipartFile file, byte[] bytes) {
-        String baseName = file.getOriginalFilename();
-        String mimeType = tikaFileDetector.delectMimeType(file);
-        String extension = tikaFileDetector.getExtensionFromMimeType(mimeType);
-
-        return new FileMetaInfo(
-                baseName,
-                (long) bytes.length,
-                "common",
-                extension,
-                mimeType
-        );
-
-    }
-
 }

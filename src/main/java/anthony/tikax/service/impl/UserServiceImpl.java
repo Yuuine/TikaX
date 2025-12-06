@@ -5,8 +5,8 @@ import anthony.tikax.enums.RoleEnum;
 import anthony.tikax.mapper.UserMapper;
 import anthony.tikax.service.UserService;
 import anthony.tikax.utils.BcryptUtil;
-import exception.BizException;
-import exception.ErrorCode;
+import anthony.tikax.exception.BizException;
+import anthony.tikax.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

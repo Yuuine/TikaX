@@ -3,7 +3,6 @@ package anthony.tikax.parser;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
 import org.apache.tika.mime.MimeTypes;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +18,8 @@ public class TikaFileDetector {
      * 获取文件类型
      *
      * @param file
-     * @return
      */
-    public String delectMimeType(MultipartFile file) {
+    public String detectMimeType(MultipartFile file) {
         try (InputStream is = file.getInputStream()) {
             return tika.detect(is, file.getOriginalFilename());
         } catch (Exception e) {

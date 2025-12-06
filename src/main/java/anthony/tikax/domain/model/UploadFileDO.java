@@ -1,12 +1,16 @@
 package anthony.tikax.domain.model;
 
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 
-public class UploadFileBO {
+@Data
+public class UploadFileDO {
 
     private String fileMd5;
     private String fileName;
-    private Integer totalSize;
+    private Long totalSize;
     private String fileType;
     private String extension;
     private String mimeType;

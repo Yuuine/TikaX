@@ -1,4 +1,4 @@
-package exception;
+package anthony.tikax.exception;
 
 import lombok.Getter;
 
@@ -11,6 +11,18 @@ public enum ErrorCode {
     LOGIN_FAILED(1003, "登录失败"),
     USERNAME_OR_PASSWORD_ERROR(1004, "用户名或密码错误"),
     USERNAME_OR_PASSWORD_NOT_NULL(1005, "用户名和密码不能为空"),
+
+    //文件上传相关异常
+    FILE_UPLOAD_NULL(2001, "上传文件为空"),
+    FILE_SIZE_TOO_LARGE(2002, "文件大小超出限制"),
+    FILE_TYPE_NOT_SUPPORT(2003, "文件类型不支持"),
+    FILE_UPLOAD_FAILED(2004, "文件上传失败"),
+    FILE_PROCESS_ERROR(2005, "读取文件到缓冲失败"),
+    FILE_MD5_ERROR(2006, "文件MD5计算失败"),
+    FILE_UPLOAD_EXIST(2007, "文件已经存在"),
+
+    //minio存储服务相关异常
+    MINIO_UPLOAD_ERROR(3001, "MinIO上传失败"),
     ;
 
     private final int code;
