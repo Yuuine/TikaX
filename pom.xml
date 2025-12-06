@@ -110,6 +110,7 @@
             <artifactId>okhttp</artifactId>
             <version>4.12.0</version> <!-- MinIO SDK 8.x 推荐 4.10+ -->
         </dependency>
+
     </dependencies>
 
     <build>
