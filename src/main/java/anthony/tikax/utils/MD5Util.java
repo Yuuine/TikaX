@@ -11,6 +11,13 @@ import java.io.InputStream;
 @Component
 public class MD5Util {
 
+    /**
+     * 计算文件的MD5值
+     *
+     * @param file 文件
+     * @return 文件的MD5值
+     * @throws Exception
+     */
     public String md5(MultipartFile file) throws Exception {
         try (InputStream is = file.getInputStream()) {
             String md5 = DigestUtils.md5Hex(is);

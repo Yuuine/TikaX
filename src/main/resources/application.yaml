@@ -2,6 +2,12 @@ spring:
   application:
     name: tikax
 
+  security:
+    user:
+      name: user
+      password: 123456
+      roles: ADMIN
+
   datasource:
     url: jdbc:mysql://localhost:3306/yu_blog?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useSSL=false
     username: root
