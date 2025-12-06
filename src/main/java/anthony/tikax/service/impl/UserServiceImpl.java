@@ -7,16 +7,17 @@ import anthony.tikax.service.UserService;
 import anthony.tikax.utils.BcryptUtil;
 import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @Override
     public void register(String username, String password) {

@@ -76,10 +76,14 @@ public class ProcessFile {
     }
 
     private void validateFile(MultipartFile file) {
-        // 允许上传大小为 0 的文件，禁止完全没有选择文件（原始文件名为空或 null）
+        // 禁止不上传文件（原始文件名为空或 null）
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.trim().isEmpty()) {
             throw new BizException(ErrorCode.FILE_UPLOAD_NULL);
+        }
+        //不允许上传文件内容为空
+        if (file.isEmpty()) {
+            throw new BizException(ErrorCode.FILE_UPLOAD_EMPTY);
         }
         if (file.getSize() > 50 * 1024 * 1024) { // 50MB
             throw new BizException(ErrorCode.FILE_SIZE_TOO_LARGE);
