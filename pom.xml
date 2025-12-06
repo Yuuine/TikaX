@@ -98,6 +98,12 @@
             <artifactId>tika-parsers-standard-package</artifactId>
             <version>3.2.3</version>
         </dependency>
+        <!-- Tesseract OCR 支持（提取图片中的文字） -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parser-ocr-module</artifactId>
+            <version>3.2.3</version>
+        </dependency>
 
         <!-- minio -->
         <dependency>

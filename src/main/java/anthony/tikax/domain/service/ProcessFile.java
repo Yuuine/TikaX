@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 
+//TODO: 策略模式 + 上下文传递
 @RequiredArgsConstructor
 @Service
 public class ProcessFile {
@@ -62,7 +63,6 @@ public class ProcessFile {
         UploadFileDO uploadFileDO = new UploadFileDO();
 
         //6. 将文件相关的信息设置到 UploadFileDO 中
-        //TODO: 添加上传者的ID (在Controller中实现)
         uploadFileDO.setFileMd5(md5);
         uploadFileDO.setFileName(fileMetaInfo.getOriginalFileName());
         uploadFileDO.setTotalSize(fileMetaInfo.getTotalSize());

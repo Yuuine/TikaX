@@ -1,6 +1,7 @@
 package anthony.tikax.service.impl;
 
 import anthony.tikax.domain.model.UploadFileDO;
+import anthony.tikax.domain.service.FileParser;
 import anthony.tikax.domain.service.ProcessFile;
 import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.service.FileService;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileServiceImpl implements FileService {
 
     private final ProcessFile processFile;
+    private final FileParser fileParser;
 
     /**
      * 文件上传
@@ -39,7 +41,8 @@ public class FileServiceImpl implements FileService {
         uploadFileDO.setUserId(userId);
         processFile.saveFileRecord(uploadFileDO);
 
-        //解析文件
+        //TODO: 解析文件
+        fileParser.parse(file);
 
 
         //构建文件返回结果
