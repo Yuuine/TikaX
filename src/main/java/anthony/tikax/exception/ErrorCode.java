@@ -20,6 +20,7 @@ public enum ErrorCode {
     FILE_PROCESS_ERROR(2005, "读取文件到缓冲失败"),
     FILE_MD5_ERROR(2006, "文件MD5计算失败"),
     FILE_UPLOAD_EXIST(2007, "文件已经存在"),
+    FILE_UPLOAD_EMPTY(2008, "文件内容为空"),
 
     //minio存储服务相关异常
     MINIO_UPLOAD_ERROR(3001, "MinIO上传失败"),
