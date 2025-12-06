@@ -49,6 +49,10 @@ public class ProcessFile {
         } catch (Exception e) {
             throw new BizException(ErrorCode.FILE_MD5_ERROR, e);
         }
+        //判断用户是否上传了重复文件
+        if (fileMapper.getFileByMd5(md5)) {
+            throw new BizException(ErrorCode.FILE_UPLOAD_EXIST);
+        }
 
         //4. 上传文件到MinIO
         InputStream inputStream = new ByteArrayInputStream(fileBytes);
