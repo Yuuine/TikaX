@@ -46,7 +46,7 @@ public class ProcessFile {
         //2.计算文件的MD5值，作为文件的新文件名
         String md5;
         try {
-            md5 = md5Util.md5(file);
+            md5 = md5Util.md5(fileBytes);
         } catch (Exception e) {
             throw new BizException(ErrorCode.FILE_MD5_ERROR, e);
         }
