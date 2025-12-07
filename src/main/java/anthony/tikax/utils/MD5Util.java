@@ -16,9 +16,8 @@ public class MD5Util {
      *
      * @param file 文件字节数组
      * @return 文件的MD5值
-     * @throws Exception
      */
-    public String md5(byte[] file) throws Exception {
+    public String md5(byte[] file) {
         String md5 = DigestUtils.md5Hex(file);
         log.info("md5:{}", md5);
         return md5;

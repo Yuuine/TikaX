@@ -1,5 +1,6 @@
 package anthony.tikax.domain.service;
 
+import anthony.tikax.context.FileContextTL;
 import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.spi.MinioService;
@@ -8,8 +9,6 @@ import anthony.tikax.parser.TikaFileDetector;
 import anthony.tikax.utils.MD5Util;
 import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.detect.DefaultDetector;
 import org.apache.tika.detect.Detector;
@@ -22,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 
-//TODO: 策略模式 + 上下文传递
 @RequiredArgsConstructor
 @Service
 public class ProcessFile {
@@ -33,6 +30,7 @@ public class ProcessFile {
     private final MD5Util md5Util;
     private final MinioService minioService;
     private final FileMapper fileMapper;
+    private final FileParser fileParser;
 
     public FileProcessingContext processFile(MultipartFile file) throws IOException {
 
@@ -82,6 +80,10 @@ public class ProcessFile {
 
         ctx.setExtension(extension);
         ctx.setMimeType(mimeType);
+
+        //将上下文 ctx 存入ThreadLocal变量中
+
+        FileContextTL.set(ctx);
 
         //返回上下文
         return ctx;

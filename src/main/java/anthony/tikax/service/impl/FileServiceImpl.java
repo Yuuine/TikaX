@@ -1,5 +1,6 @@
 package anthony.tikax.service.impl;
 
+import anthony.tikax.context.FileContextTL;
 import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.FileParser;
@@ -34,11 +35,9 @@ public class FileServiceImpl implements FileService {
         //解析文件基本信息，将文件上传到 minio
         try {
             ctx = processFile.processFile(file);
-        }
-        catch (BizException e) {
+        } catch (BizException e) {
             throw e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new BizException(ErrorCode.FILE_UPLOAD_FAILED, e);
         }
 
@@ -55,9 +54,8 @@ public class FileServiceImpl implements FileService {
         uploadFileDO.setCreateAt(LocalDateTime.now());
         processFile.saveFileRecord(uploadFileDO);
 
-        //TODO: 解析文件
-        fileParser.parse(file);
-        String plainText = "测试文本";
+        String plainText = fileParser.parse(FileContextTL.get());
+
         fileMapper.insertPlainText(uploadFileDO.getFileMd5(), plainText);
 
 
