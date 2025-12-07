@@ -24,6 +24,10 @@ public enum ErrorCode {
 
     //minio存储服务相关异常
     MINIO_UPLOAD_ERROR(3001, "MinIO上传失败"),
+
+
+    //通用异常
+    SERVER_ERROR(500, "服务器异常"),
     ;
 
     private final int code;

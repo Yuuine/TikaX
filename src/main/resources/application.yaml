@@ -21,6 +21,7 @@ mybatis:
 
 minio:
   endpoint: http://127.0.0.1:9000
+  console-endpoint: http://localhost:9001
   access-key: admin
   secret-key: password
   bucket-name: tikax

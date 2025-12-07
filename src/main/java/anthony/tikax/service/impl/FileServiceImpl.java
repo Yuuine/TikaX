@@ -1,5 +1,6 @@
 package anthony.tikax.service.impl;
 
+import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.FileParser;
 import anthony.tikax.domain.service.ProcessFile;
@@ -10,6 +11,8 @@ import anthony.tikax.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +28,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileVO fileUpload(Integer userId, MultipartFile file) {
 
-        UploadFileDO uploadFileDO;
+        FileProcessingContext ctx;
         //解析文件基本信息，将文件上传到 minio
         try {
-            uploadFileDO = processFile.processFile(file);
+            ctx = processFile.processFile(file);
         }
         catch (BizException e) {
             throw e;
@@ -38,7 +41,16 @@ public class FileServiceImpl implements FileService {
         }
 
         //将文件相关信息上传到数据库
+        UploadFileDO uploadFileDO = new UploadFileDO();
+        uploadFileDO.setFileMd5(ctx.getFileMd5());
+        uploadFileDO.setFileName(ctx.getFileName());
+        uploadFileDO.setTotalSize(ctx.getTotalSize());
+        uploadFileDO.setFileType("common");
+        uploadFileDO.setExtension(ctx.getExtension());
+        uploadFileDO.setMimeType(ctx.getMimeType());
+        uploadFileDO.setStatus(1);
         uploadFileDO.setUserId(userId);
+        uploadFileDO.setCreateAt(LocalDateTime.now());
         processFile.saveFileRecord(uploadFileDO);
 
         //TODO: 解析文件
