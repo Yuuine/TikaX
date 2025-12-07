@@ -62,7 +62,7 @@ public class FileServiceImpl implements FileService {
         //构建文件返回结果
         FileVO fileVO = new FileVO();
         fileVO.setFileMd5(uploadFileDO.getFileMd5());
-        fileVO.setText("测试文本");//临时写死
+        fileVO.setText(plainText);
 
         return fileVO;
     }

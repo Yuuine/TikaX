@@ -5,7 +5,6 @@ import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.spi.MinioService;
 import anthony.tikax.mapper.FileMapper;
-import anthony.tikax.parser.TikaFileDetector;
 import anthony.tikax.utils.MD5Util;
 import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
