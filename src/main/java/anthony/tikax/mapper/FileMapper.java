@@ -4,6 +4,7 @@ import anthony.tikax.domain.model.UploadFileDO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface FileMapper {
@@ -13,6 +14,9 @@ public interface FileMapper {
             "values (#{fileMd5}, #{fileName}, #{totalSize}, #{fileType}, #{extension}, #{mimeType}, #{status}, #{userId}, #{createAt})")
     void insert(UploadFileDO uploadFileDO);
 
-    @Select("select  COUNT(*) from file_upload where file_md5 = #{md5}")
+    @Select("select COUNT(*) from file_upload where file_md5 = #{md5}")
     boolean getFileByMd5(String md5);
+
+    @Update("update file_upload set plain_text = #{plainText} where file_md5 = #{fileMd5}")
+    void insertPlainText(String fileMd5, String plainText);
 }

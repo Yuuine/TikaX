@@ -5,6 +5,7 @@ import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.FileParser;
 import anthony.tikax.domain.service.ProcessFile;
 import anthony.tikax.dto.file.response.FileVO;
+import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.service.FileService;
 import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
@@ -20,6 +21,7 @@ public class FileServiceImpl implements FileService {
 
     private final ProcessFile processFile;
     private final FileParser fileParser;
+    private final FileMapper fileMapper;
 
     /**
      * 文件上传
@@ -55,6 +57,8 @@ public class FileServiceImpl implements FileService {
 
         //TODO: 解析文件
         fileParser.parse(file);
+        String plainText = "测试文本";
+        fileMapper.insertPlainText(uploadFileDO.getFileMd5(), plainText);
 
 
         //构建文件返回结果

@@ -55,7 +55,7 @@ public class ProcessFile {
         } catch (Exception e) {
             throw new BizException(ErrorCode.FILE_MD5_ERROR, e);
         }
-        //判断用户是否上传了重复文件
+        //3. 判断用户是否上传了重复文件
         if (fileMapper.getFileByMd5(md5)) {
             throw new BizException(ErrorCode.FILE_UPLOAD_EXIST);
         }
@@ -74,6 +74,7 @@ public class ProcessFile {
         //6. 解析文件元信息
         String mimeType = detectMimeType(new ByteArrayInputStream(fileBytes));
         if (mimeType == null || mimeType.trim().isEmpty()) {
+            System.out.println("mimeType is null");
             mimeType = "application/octet-stream";
         }
         String extension = tikaFileDetector.getExtensionFromMimeType(mimeType);
@@ -121,7 +122,7 @@ public class ProcessFile {
         // 使用 Tika 的 AutoDetectParser
         Detector detector = new DefaultDetector();
         Metadata metadata = new Metadata();
-        // Tika 需要可标记的流（Markable），ByteArrayInputStream 是
+        //
         MediaType mediaType = detector.detect(inputStream, metadata);
         return mediaType.toString();
     }
