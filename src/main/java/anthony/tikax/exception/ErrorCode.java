@@ -28,7 +28,7 @@ public enum ErrorCode {
 
     //通用异常
     SERVER_ERROR(500, "服务器异常"),
-    ;
+    FILE_PARSE_ERROR(9000, "文件解析异常"), FILE_EMPTY(9001, "文件为空");
 
     private final int code;
     private final String message;

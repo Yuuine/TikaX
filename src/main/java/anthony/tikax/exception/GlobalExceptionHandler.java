@@ -13,11 +13,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BizException.class)
     public ResponseEntity<Result<Object>> handleBizException(BizException e, HttpServletRequest request) {
-        log.warn("business exception: URL={}, method{}, code={} , message={}",
+        log.warn("business exception: URL={}, method={}, code={}",
                 request.getRequestURI(),
                 request.getMethod(),
                 e.getCode(),
-                e.getMessage());
+                e);
 
         Result<Object> result = Result.error(Integer.parseInt(e.getCode()), e.getMessage());
 

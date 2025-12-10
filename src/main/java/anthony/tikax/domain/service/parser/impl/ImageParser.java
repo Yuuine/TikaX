@@ -5,10 +5,10 @@ import anthony.tikax.domain.service.parser.DocumentParser;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DocxParser implements DocumentParser {
+public class ImageParser implements DocumentParser {
     @Override
     public String supportedMimeType() {
-        return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        return "";
     }
 
     @Override

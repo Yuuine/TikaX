@@ -25,7 +25,7 @@ public class MinioService {
                             .stream(inputStream, -1, 50 * 1024 * 1024)
                             .build());
         } catch (Exception e) {
-            throw new BizException(ErrorCode.MINIO_UPLOAD_ERROR);
+            throw new BizException(ErrorCode.MINIO_UPLOAD_ERROR, e);
         }
 
     }

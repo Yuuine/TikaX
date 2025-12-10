@@ -86,25 +86,6 @@
             <version>4.0.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- tika -->
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>3.2.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers-standard-package</artifactId>
-            <version>3.2.3</version>
-        </dependency>
-        <!-- Tesseract OCR 支持（提取图片中的文字） -->
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parser-ocr-module</artifactId>
-            <version>3.2.3</version>
-        </dependency>
-
         <!-- minio -->
         <dependency>
             <groupId>io.minio</groupId>
@@ -116,8 +97,20 @@
             <artifactId>okhttp</artifactId>
             <version>4.12.0</version> <!-- MinIO SDK 8.x 推荐 4.10+ -->
         </dependency>
+        <!-- Apache Tika -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers-standard-package</artifactId>
+            <version>3.2.2</version>
+        </dependency>
 
     </dependencies>
+
 
     <build>
         <plugins>
