@@ -29,7 +29,6 @@ public class ProcessFile {
     private final MD5Util md5Util;
     private final MinioService minioService;
     private final FileMapper fileMapper;
-    private final FileParser fileParser;
 
     public FileProcessingContext processFile(MultipartFile file) throws IOException {
 
@@ -101,20 +100,6 @@ public class ProcessFile {
         }
         if (file.getSize() > 50 * 1024 * 1024) { // 50MB
             throw new BizException(ErrorCode.FILE_SIZE_TOO_LARGE);
-        }
-    }
-
-    /**
-     * 保存文件记录
-     *
-     * @param uploadFileDO 文件记录
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public void saveFileRecord(UploadFileDO uploadFileDO) {
-        try {
-            fileMapper.insert(uploadFileDO);
-        } catch (Exception e) {
-            throw new BizException(ErrorCode.SERVER_ERROR, e);
         }
     }
 

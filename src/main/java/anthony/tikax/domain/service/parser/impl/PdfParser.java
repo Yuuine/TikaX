@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 
 /**
- * 最简版 PDF 解析器：直接用 Tika 抽取文本，不做任何类型检测
- * 企业级特点：稳定、日志清晰、可观测、异常统一处理
+ * PDF 文档解析器
  */
+//TODO: 待优化，类型检测，分类处理，ocr识别
 @Slf4j
 @Component
 public class PdfParser implements DocumentParser {
