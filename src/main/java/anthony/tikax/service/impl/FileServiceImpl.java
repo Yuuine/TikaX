@@ -12,6 +12,7 @@ import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -23,12 +24,14 @@ public class FileServiceImpl implements FileService {
     private final ProcessFile processFile;
     private final FileParser fileParser;
     private final FileMapper fileMapper;
+    private final FileRecordServiceImpl fileRecordServiceImpl;
 
     /**
      * 文件上传
      *
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public FileVO fileUpload(Integer userId, MultipartFile file) {
 
         FileProcessingContext ctx;
@@ -52,10 +55,11 @@ public class FileServiceImpl implements FileService {
         uploadFileDO.setStatus(1);
         uploadFileDO.setUserId(userId);
         uploadFileDO.setCreateAt(LocalDateTime.now());
-        processFile.saveFileRecord(uploadFileDO);
-
+        //保存文件记录
+        fileRecordServiceImpl.saveFileRecord(uploadFileDO);
+        //解析文件内容
         String plainText = fileParser.parse(FileContextTL.get());
-
+        //保存文件内容
         fileMapper.insertPlainText(uploadFileDO.getFileMd5(), plainText);
 
 

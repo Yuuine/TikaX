@@ -18,23 +18,28 @@ import java.util.Map;
 public class DocumentParserRegistry {
 
     private final Map<String, DocumentParser> parserMap = new HashMap<>();
+    private final List<DocumentParser> parserList;
 
     /**
-     * 构造函数，初始化文档解析器注册表
+     * 构造函数，用于初始化文档解析器注册表。
+     * 将传入的解析器列表注册到内部映射中，并记录日志信息。
      *
-     * @param parsers 文档解析器列表，Spring会自动收集所有DocumentParser的实现类
+     * @param parsers 文档解析器列表，不能为空
      */
     public DocumentParserRegistry(List<DocumentParser> parsers) {
-        // Spring 会自动收集所有 DocumentParser 的实现类
+
+        this.parserList = parsers;
+
         for (DocumentParser parser : parsers) {
             String type = parser.supportedMimeType();
-            parserMap.put(type, parser);
 
+            parserMap.put(type, parser);
             log.info("[ParserRegistry] 注册解析器: {} -> {}", type, parser.getClass().getSimpleName());
         }
 
         log.info("[ParserRegistry] 共加载解析器数量: {}", parserMap.size());
     }
+
 
     /**
      * 根据MIME类型获取对应的文档解析器
@@ -43,7 +48,28 @@ public class DocumentParserRegistry {
      * @return 对应的文档解析器，如果不存在则返回null
      */
     public DocumentParser getParser(String mimeType) {
-        return parserMap.get(mimeType);
+
+        if (mimeType == null) return null;
+
+        // 1. 精准匹配
+        if (parserMap.containsKey(mimeType)) {
+            return parserMap.get(mimeType);
+        }
+
+        // 2. 通配符匹配
+        for (DocumentParser parser : parserList) {
+            String supported = parser.supportedMimeType();
+
+            if (supported.endsWith("/*")) {
+                String prefix = supported.substring(0, supported.indexOf("/*"));
+                if (mimeType.startsWith(prefix + "/")) {
+                    log.info("[ParserRegistry] 通配符匹配: {} → {}", supported, mimeType);
+                    return parser;
+                }
+            }
+        }
+        log.warn("[ParserRegistry] 未找到解析器: {}", mimeType);
+        return null;
     }
 
     /**
@@ -53,6 +79,18 @@ public class DocumentParserRegistry {
      * @return 如果包含返回true，否则返回false
      */
     public boolean contains(String mimeType) {
-        return parserMap.containsKey(mimeType);
+        if (parserMap.containsKey(mimeType)) return true;
+
+        for (DocumentParser parser : parserList) {
+            String supported = parser.supportedMimeType();
+            if (supported.endsWith("/*")) {
+                String prefix = supported.substring(0, supported.indexOf("/*"));
+                if (mimeType.startsWith(prefix + "/")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

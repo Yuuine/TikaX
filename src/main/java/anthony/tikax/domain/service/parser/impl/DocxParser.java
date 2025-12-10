@@ -1,4 +1,18 @@
 package anthony.tikax.domain.service.parser.impl;
 
-public class DocxParser {
+import anthony.tikax.domain.model.FileProcessingContext;
+import anthony.tikax.domain.service.parser.DocumentParser;
+import org.springframework.stereotype.Component;
+
+@Component
+public class DocxParser implements DocumentParser {
+    @Override
+    public String supportedMimeType() {
+        return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    }
+
+    @Override
+    public String parse(FileProcessingContext ctx) {
+        return "";
+    }
 }
