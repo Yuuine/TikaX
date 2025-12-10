@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
     private final ProcessFile processFile;
     private final FileParser fileParser;
     private final FileMapper fileMapper;
-    private FileRecordServiceImpl fileRecordService;
+    private final FileRecordServiceImpl fileRecordServiceImpl;
 
     /**
      * 文件上传
@@ -56,7 +56,7 @@ public class FileServiceImpl implements FileService {
         uploadFileDO.setUserId(userId);
         uploadFileDO.setCreateAt(LocalDateTime.now());
         //保存文件记录
-        fileRecordService.saveFileRecord(uploadFileDO);
+        fileRecordServiceImpl.saveFileRecord(uploadFileDO);
         //解析文件内容
         String plainText = fileParser.parse(FileContextTL.get());
         //保存文件内容

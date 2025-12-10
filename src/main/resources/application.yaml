@@ -41,3 +41,7 @@ logging:
       max-file-size: 10MB       # 单个文件最大 10MB
       max-history: 7            # 保留 7 个历史文件
       total-size-cap: 1GB    # 总日志大小上限
+
+tesseract:
+  datapath: "E:/Tesseract-OCR/tessdata"
+  language: "chi_sim+eng"
