@@ -24,11 +24,14 @@ public enum ErrorCode {
 
     //minio存储服务相关异常
     MINIO_UPLOAD_ERROR(3001, "MinIO上传失败"),
-
+    MINIO_GET_URL_ERROR(3002, "MinIO获取URL失败"),
 
     //通用异常
     SERVER_ERROR(500, "服务器异常"),
-    FILE_PARSE_ERROR(9000, "文件解析异常"), FILE_EMPTY(9001, "文件为空");
+    FILE_PARSE_ERROR(9000, "文件解析异常"),
+    FILE_EMPTY(9001, "文件为空"),
+    FILE_NOT_FOUND(9002, "文件未找到"),
+    ;
 
     private final int code;
     private final String message;

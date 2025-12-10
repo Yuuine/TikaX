@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +71,28 @@ public class FileServiceImpl implements FileService {
         fileVO.setText(plainText);
 
         return fileVO;
+    }
+
+    /**
+     * 文件删除
+     */
+    @Override
+    public void deleteFile(Integer userId, String fileName) {
+
+        fileRecordServiceImpl.deleteFile(userId, fileName);
+    }
+
+    @Override
+    public Map<String, String> getFileMd5(Integer userId, String fileName) {
+        //判断文件是否存在
+        String md5 = fileMapper.getFileMd5(userId, fileName);
+        if (md5 == null) {
+            throw new BizException(ErrorCode.FILE_NOT_FOUND);
+        }
+        Map<String, String> map = new HashMap<>();
+        map.put("fileMd5", md5);
+        map.put("fileName", fileName);
+
+        return map;
     }
 }

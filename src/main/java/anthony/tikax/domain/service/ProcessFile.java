@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +30,8 @@ public class ProcessFile {
     private final MD5Util md5Util;
     private final MinioService minioService;
     private final FileMapper fileMapper;
+    private final TextTypeDetector textTypeDetector;
+
 
     public FileProcessingContext processFile(MultipartFile file) throws IOException {
 
@@ -73,6 +76,16 @@ public class ProcessFile {
             System.out.println("mimeType is null");
             mimeType = "application/octet-stream";
         }
+               // 二次判断文本类型
+        // 当文件的MIME类型为纯文本时，需要进一步检测具体的文本类型
+        // 读取文件内容并结合原始文件名来准确识别文本文件的具体类型
+        if ("text/plain".equals(mimeType)) {
+            String content = new String(fileBytes, StandardCharsets.UTF_8);
+            assert originalFilename != null;
+            mimeType = textTypeDetector.detect(originalFilename, content);
+        }
+
+
         String extension = tikaFileDetector.getExtensionFromMimeType(mimeType);
         if (extension == null) extension = "";
 

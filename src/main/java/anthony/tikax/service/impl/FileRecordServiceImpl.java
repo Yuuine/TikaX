@@ -14,6 +14,7 @@ public class FileRecordServiceImpl {
 
 
     private final FileMapper fileMapper;
+
     /**
      * 保存文件记录
      *
@@ -25,6 +26,22 @@ public class FileRecordServiceImpl {
             fileMapper.insert(uploadFileDO);
         } catch (Exception e) {
             throw new BizException(ErrorCode.SERVER_ERROR, e);
+        }
+    }
+
+    /**
+     * 删除文件
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteFile(Integer userId, String fileName) {
+        Boolean result;
+        try {
+            result = fileMapper.deleteFile(userId, fileName);
+        } catch (Exception e) {
+            throw new BizException(ErrorCode.SERVER_ERROR, e);
+        }
+        if (!result) {
+            throw new BizException(ErrorCode.FILE_NOT_FOUND);
         }
     }
 }

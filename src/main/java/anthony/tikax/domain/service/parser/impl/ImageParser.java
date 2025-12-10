@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -15,8 +17,17 @@ public class ImageParser implements DocumentParser {
     private final OcrService ocrService;
 
     @Override
-    public String supportedMimeType() {
-        return "image/*";
+    public List<String> supportedMimeTypes() {
+
+        return List.of(
+                "image/png",
+                "image/jpeg",
+                "image/jpg",
+                "image/gif",
+                "image/bmp",
+                "image/webp",
+                "image/*" // 通配符
+        );
     }
 
     @Override

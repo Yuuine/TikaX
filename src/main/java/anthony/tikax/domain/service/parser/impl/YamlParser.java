@@ -6,16 +6,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//TODO: markdown 结构化解析
 @Component
-public class MarkdownParser implements DocumentParser {
+public class YamlParser implements DocumentParser {
     @Override
     public List<String> supportedMimeTypes() {
-        return List.of("text/markdown");
+        return List.of(
+                "text/x-yaml",
+                "text/x-yml",
+                "text/yml",
+                "text/yaml");
     }
 
     @Override
     public String parse(FileProcessingContext ctx) {
-        return "markdown";
+        return "yaml";
     }
 }

@@ -29,6 +29,7 @@ minio:
   secret-key: password
   bucket-name: tikax
 
+#日志
 logging:
   level:
     anthony.tikax.mapper: debug

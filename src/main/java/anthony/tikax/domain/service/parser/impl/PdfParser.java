@@ -13,6 +13,7 @@ import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 
 /**
  * PDF 文档解析器
@@ -23,8 +24,9 @@ import java.io.ByteArrayInputStream;
 public class PdfParser implements DocumentParser {
 
     @Override
-    public String supportedMimeType() {
-        return "application/pdf";
+    public List<String> supportedMimeTypes() {
+
+        return List.of("application/pdf");
     }
 
     @Override
