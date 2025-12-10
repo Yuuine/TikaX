@@ -115,6 +115,13 @@
             <version>5.11.0</version>
         </dependency>
 
+        <!-- markdown -->
+        <dependency>
+            <groupId>org.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.22.0</version>
+        </dependency>
+
     </dependencies>
 
 
