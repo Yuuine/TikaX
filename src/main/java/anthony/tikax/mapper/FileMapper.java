@@ -17,6 +17,9 @@ public interface FileMapper {
     @Select("select COUNT(*) from file_upload where file_md5 = #{md5}")
     boolean getFileByMd5(String md5);
 
+    @Select("select file_md5 from file_upload where user_id = #{userId} and file_name = #{fileName}")
+    String getFileMd5(Integer userId, String fileName);
+
     @Update("update file_upload set plain_text = #{plainText} where file_md5 = #{fileMd5}")
     void insertPlainText(String fileMd5, String plainText);
 
