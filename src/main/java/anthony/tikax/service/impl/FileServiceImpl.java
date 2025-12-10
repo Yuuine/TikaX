@@ -70,4 +70,13 @@ public class FileServiceImpl implements FileService {
 
         return fileVO;
     }
+
+    /**
+     * 文件删除
+     */
+    @Override
+    public void deleteFile(Integer userId, String fileName) {
+
+        fileRecordServiceImpl.deleteFile(userId, fileName);
+    }
 }

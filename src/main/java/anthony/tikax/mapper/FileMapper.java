@@ -19,4 +19,7 @@ public interface FileMapper {
 
     @Update("update file_upload set plain_text = #{plainText} where file_md5 = #{fileMd5}")
     void insertPlainText(String fileMd5, String plainText);
+
+    @Update("delete from file_upload where user_id = #{userId} and file_name = #{fileName}")
+    Boolean deleteFile(Integer userId, String fileName);
 }

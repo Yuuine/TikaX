@@ -5,17 +5,14 @@ import anthony.tikax.entity.Result;
 import anthony.tikax.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @Slf4j
 @RestController
 @RequestMapping("/file")
-public class FileUploadController {
+public class FileController {
 
     private final FileService fileService;
 
@@ -30,5 +27,14 @@ public class FileUploadController {
 
         FileVO fileVO = fileService.fileUpload(userId, file);
         return Result.success(fileVO);
+    }
+
+    @DeleteMapping("/delete")
+    public Result<String> delete(
+            @RequestParam("userId") Integer userId,
+            @RequestParam("fileName") String fileName
+    ) {
+        fileService.deleteFile(userId, fileName);
+        return Result.success("删除成功");
     }
 }
