@@ -31,13 +31,13 @@ public class DocumentParserRegistry {
         this.parserList = parsers;
 
         for (DocumentParser parser : parsers) {
-            String type = parser.supportedMimeType();
+            for (String mime : parser.supportedMimeTypes()) {
+                parserMap.put(mime, parser);
+                log.info("[ParserRegistry] 注册解析器: {} -> {}", mime, parser.getClass().getSimpleName());
+            }
 
-            parserMap.put(type, parser);
-            log.info("[ParserRegistry] 注册解析器: {} -> {}", type, parser.getClass().getSimpleName());
+            log.info("[ParserRegistry] 共加载解析器数量: {}", parserMap.size());
         }
-
-        log.info("[ParserRegistry] 共加载解析器数量: {}", parserMap.size());
     }
 
 
@@ -58,13 +58,14 @@ public class DocumentParserRegistry {
 
         // 2. 通配符匹配
         for (DocumentParser parser : parserList) {
-            String supported = parser.supportedMimeType();
+            for (String supported : parser.supportedMimeTypes()) {
 
-            if (supported.endsWith("/*")) {
-                String prefix = supported.substring(0, supported.indexOf("/*"));
-                if (mimeType.startsWith(prefix + "/")) {
-                    log.info("[ParserRegistry] 通配符匹配: {} → {}", supported, mimeType);
-                    return parser;
+                if (supported.endsWith("/*")) {
+                    String prefix = supported.substring(0, supported.indexOf("/*"));
+                    if (mimeType.startsWith(prefix + "/")) {
+                        log.info("[ParserRegistry] 通配符匹配: {} → {}", supported, mimeType);
+                        return parser;
+                    }
                 }
             }
         }
@@ -82,11 +83,13 @@ public class DocumentParserRegistry {
         if (parserMap.containsKey(mimeType)) return true;
 
         for (DocumentParser parser : parserList) {
-            String supported = parser.supportedMimeType();
-            if (supported.endsWith("/*")) {
-                String prefix = supported.substring(0, supported.indexOf("/*"));
-                if (mimeType.startsWith(prefix + "/")) {
-                    return true;
+            for (String supported : parser.supportedMimeTypes()) {
+
+                if (supported.endsWith("/*")) {
+                    String prefix = supported.substring(0, supported.indexOf("/*"));
+                    if (mimeType.startsWith(prefix + "/")) {
+                        return true;
+                    }
                 }
             }
         }

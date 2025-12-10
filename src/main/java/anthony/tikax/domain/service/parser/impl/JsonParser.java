@@ -2,11 +2,15 @@ package anthony.tikax.domain.service.parser.impl;
 
 import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.service.parser.DocumentParser;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class JsonParser implements DocumentParser {
     @Override
-    public String supportedMimeType() {
-        return "text/json";
+    public List<String> supportedMimeTypes() {
+        return List.of("text/json");
     }
 
     @Override

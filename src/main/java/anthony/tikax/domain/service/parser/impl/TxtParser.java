@@ -6,14 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Component
 @Slf4j
 public class TxtParser implements DocumentParser {
     @Override
-    public String supportedMimeType() {
+    public List<String> supportedMimeTypes() {
         // 常见 txt 类型
-        return "text/plain";
+        return List.of("text/plain");
     }
 
     @Override

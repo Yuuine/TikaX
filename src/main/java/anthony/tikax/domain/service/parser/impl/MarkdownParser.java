@@ -4,12 +4,14 @@ import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.service.parser.DocumentParser;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 //TODO: markdown 结构化解析
 @Component
 public class MarkdownParser implements DocumentParser {
     @Override
-    public String supportedMimeType() {
-        return "text/markdown";
+    public List<String> supportedMimeTypes() {
+        return List.of("text/markdown");
     }
 
     @Override
