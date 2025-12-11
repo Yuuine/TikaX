@@ -5,12 +5,15 @@ import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.service.FileParser;
 import anthony.tikax.domain.service.ProcessFile;
+import anthony.tikax.domain.spi.MinioService;
 import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.service.FileService;
 import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
@@ -27,6 +32,8 @@ public class FileServiceImpl implements FileService {
     private final FileParser fileParser;
     private final FileMapper fileMapper;
     private final FileRecordServiceImpl fileRecordServiceImpl;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final MinioService minioService;
 
     /**
      * 文件上传
@@ -83,16 +90,28 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Map<String, String> getFileMd5(Integer userId, String fileName) {
-        //判断文件是否存在
+    public String getPresignedUrl(Integer userId, String fileName) {
+
         String md5 = fileMapper.getFileMd5(userId, fileName);
         if (md5 == null) {
             throw new BizException(ErrorCode.FILE_NOT_FOUND);
         }
-        Map<String, String> map = new HashMap<>();
-        map.put("fileMd5", md5);
-        map.put("fileName", fileName);
 
-        return map;
+        String key = "fileUrl:" + md5;
+
+        // 1. 查询缓存
+        String url = stringRedisTemplate.opsForValue().get(key);
+
+        // 2. 缓存未命中 → 生成新链接
+        if (url == null) {
+
+            url = minioService.getPresignedUrl(md5, fileName);
+
+            // 3. 存入 Redis，设置过期时间 5 分钟
+            stringRedisTemplate.opsForValue().set(key, url, 5, TimeUnit.MINUTES);
+        }
+
+        return url;
     }
+
 }

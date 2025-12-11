@@ -48,10 +48,7 @@ public class FileController {
             @RequestParam("fileName") String fileName
     ) {
 
-        Map<String, String> map = fileService.getFileMd5(userId, fileName);
-        String md5 = map.get("fileMd5");
-        String downloadName = map.get("fileName");
-        String url = minioService.getPresignedUrl(md5, downloadName);
+        String url = fileService.getPresignedUrl(userId, fileName);
         return Result.success(url);
     }
 }
