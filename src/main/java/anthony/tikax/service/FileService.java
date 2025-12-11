@@ -3,10 +3,11 @@ package anthony.tikax.service;
 import anthony.tikax.dto.file.response.FileVO;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
+import java.util.List;
+
 
 public interface FileService {
-    FileVO fileUpload(Integer userId, MultipartFile file);
+    FileVO fileUpload(Integer userId, List<MultipartFile> files);
 
     void deleteFile(Integer userId, String fileName);
 
