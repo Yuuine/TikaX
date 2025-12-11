@@ -15,6 +15,21 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 500MB
+  #Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 2000ms # 超时时间
+      lettuce:
+        pool:
+          max-active: 8 # 连接池最大活跃连接数
+          max-idle: 8 # 连接池最大空闲连接数
+          min-idle: 0 # 连接池最小空闲连接数
+          max-wait: 200 # 连接池获取连接的最大等待时间(毫秒)
+          enabled: true # 是否启用连接池
+
 server:
   port: 8080
 

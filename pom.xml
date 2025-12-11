@@ -122,6 +122,12 @@
             <version>0.22.0</version>
         </dependency>
 
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>3.2.1</version>
+        </dependency>
     </dependencies>
 
 
