@@ -10,5 +10,5 @@ public interface FileService {
 
     void deleteFile(Integer userId, String fileName);
 
-    Map<String, String> getFileMd5(Integer userId, String fileName);
+    String getPresignedUrl(Integer userId, String fileName);
 }
