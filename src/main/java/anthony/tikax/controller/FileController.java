@@ -1,6 +1,5 @@
 package anthony.tikax.controller;
 
-import anthony.tikax.domain.spi.MinioService;
 import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.entity.Result;
 import anthony.tikax.service.FileService;
@@ -9,7 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -18,7 +18,6 @@ import java.util.Map;
 public class FileController {
 
     private final FileService fileService;
-    private final MinioService minioService;
 
     /**
      * 文件上传
@@ -26,10 +25,10 @@ public class FileController {
     @PostMapping("/upload")
     public Result<FileVO> upload(
             @RequestParam("userId") Integer userId,
-            @RequestParam("file") MultipartFile file
+            @RequestParam("files") List<MultipartFile> files
     ) {
 
-        FileVO fileVO = fileService.fileUpload(userId, file);
+        FileVO fileVO = fileService.fileUpload(userId, files);
         return Result.success(fileVO);
     }
 

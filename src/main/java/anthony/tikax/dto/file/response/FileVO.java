@@ -2,9 +2,11 @@ package anthony.tikax.dto.file.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class FileVO {
 
-    private String fileMd5;
-    private String text;
+    private List<FileResult> results;
+
 }

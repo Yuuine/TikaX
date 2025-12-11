@@ -2,7 +2,6 @@ package anthony.tikax.domain.service;
 
 import anthony.tikax.context.FileContextTL;
 import anthony.tikax.domain.model.FileProcessingContext;
-import anthony.tikax.domain.model.UploadFileDO;
 import anthony.tikax.domain.spi.MinioService;
 import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.utils.MD5Util;
@@ -14,7 +13,6 @@ import org.apache.tika.detect.Detector;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
