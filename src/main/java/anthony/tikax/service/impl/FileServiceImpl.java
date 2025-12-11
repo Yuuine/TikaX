@@ -106,7 +106,6 @@ public class FileServiceImpl implements FileService {
         if (url == null) {
 
             url = minioService.getPresignedUrl(md5, fileName);
-            log.info("生成链接: {}", url);
 
             // 3. 存入 Redis，设置过期时间 5 分钟
             stringRedisTemplate.opsForValue().set(key, url, 5, TimeUnit.MINUTES);
