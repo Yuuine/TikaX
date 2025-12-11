@@ -73,9 +73,23 @@ public class LogAspect {
         return Arrays.toString(Arrays.stream(args)
                 .map(arg -> {
                     if (arg == null) return "null";
+
+                    // 跳过文件、字节数组、超长字符串等，只记录类型
+                    if (arg instanceof byte[] || arg instanceof Byte[]) {
+                        return "<byte[]>";
+                    }
+                    if (arg.getClass().getName().contains("MultipartFile")) {
+                        return "<MultipartFile>";
+                    }
+                    if (arg instanceof String s && s.length() > 2000) {
+                        return "<LongString(length=" + s.length() + ")>";
+                    }
+
+                    // 脱敏处理：手机号、身份证号、包含password的字符串
                     if (arg instanceof String s) {
-                        if (s.matches("^\\d{6}\\*{4}\\d{4}$") || s.matches(".*password.*") ||
-                                s.matches("^\\d{17}[0-9X]$")) { // 手机号、密码、身份证
+                        if (s.matches("^1[3-9]\\d{9}$") ||        // 手机号
+                                s.matches("^\\d{17}[0-9X]$") ||       // 身份证
+                                s.toLowerCase().contains("password")) {
                             return maskString(s);
                         }
                     }
@@ -83,6 +97,7 @@ public class LogAspect {
                 })
                 .toArray());
     }
+
 
     /**
      * 将字符串中间部分替换为星号以达到脱敏效果
