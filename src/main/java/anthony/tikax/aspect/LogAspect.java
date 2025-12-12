@@ -74,28 +74,43 @@ public class LogAspect {
                 .map(arg -> {
                     if (arg == null) return "null";
 
-                    // 跳过文件、字节数组、超长字符串等，只记录类型
+                    // 1. 跳过二进制/文件类型
                     if (arg instanceof byte[] || arg instanceof Byte[]) {
                         return "<byte[]>";
                     }
                     if (arg.getClass().getName().contains("MultipartFile")) {
                         return "<MultipartFile>";
                     }
-                    if (arg instanceof String s && s.length() > 2000) {
-                        return "<LongString(length=" + s.length() + ")>";
-                    }
 
-                    // 脱敏处理：手机号、身份证号、包含password的字符串
+                    // 2. 超长字符串直接截断
                     if (arg instanceof String s) {
-                        if (s.matches("^1[3-9]\\d{9}$") ||        // 手机号
-                                s.matches("^\\d{17}[0-9X]$") ||       // 身份证
+                        if (s.length() > 2000) {
+                            return "<LongString(len=" + s.length() + ")>";
+                        }
+                        // 脱敏判断（手机号、身份证、含 password 的字符串）
+                        if (s.matches("^1[3-9]\\d{9}$") ||
+                                s.matches("^\\d{17}[0-9X]$") ||
                                 s.toLowerCase().contains("password")) {
                             return maskString(s);
                         }
+                        return s; // 安全短字符串直接返回
                     }
-                    return arg.toString();
+
+                    // 3. 其他对象：尝试 JSON 序列化 + 截断
+                    try {
+                        String json = JsonUtil.toJson(arg);
+                        if (json == null) return arg.getClass().getSimpleName();
+
+                        if (json.length() > 2000) {
+                            return "<Object(len=" + json.length() + ")>";
+                        }
+
+                        return json;
+                    } catch (Exception ex) {
+                        return arg.getClass().getSimpleName();
+                    }
                 })
-                .toArray());
+                .toArray(String[]::new));
     }
 
 
@@ -122,10 +137,21 @@ public class LogAspect {
         if (obj instanceof String || obj instanceof Number || obj instanceof Boolean) {
             return obj.toString();
         }
+
+        // 防止大对象：先估算大小或直接限制序列化长度
         try {
-            return JsonUtil.toJson(obj);
+            String json = JsonUtil.toJson(obj);
+            if (json == null) return "null";
+
+            // 限制最大长度 2000 字符，超出则截断并提示
+            int maxLength = 2000;
+            if (json.length() > maxLength) {
+                return json.substring(0, maxLength) + "...[TRUNCATED]";
+            }
+            return json;
         } catch (Exception e) {
-            return obj.getClass().getSimpleName() + "@" + Integer.toHexString(obj.hashCode());
+            // 序列化失败时只打印类名和 hash，避免异常堆栈污染业务日志
+            return obj.getClass().getSimpleName() + "@" + Integer.toHexString(System.identityHashCode(obj));
         }
     }
 
