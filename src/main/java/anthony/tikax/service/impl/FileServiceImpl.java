@@ -3,8 +3,10 @@ package anthony.tikax.service.impl;
 import anthony.tikax.context.FileContextTL;
 import anthony.tikax.domain.service.ProcessSingleFile;
 import anthony.tikax.domain.spi.MinioService;
+import anthony.tikax.dto.file.response.FileListVO;
 import anthony.tikax.dto.file.response.FileResult;
 import anthony.tikax.dto.file.response.FileVO;
+import anthony.tikax.dto.file.response.SingleFile;
 import anthony.tikax.mapper.FileMapper;
 import anthony.tikax.service.FileService;
 import anthony.tikax.exception.BizException;
@@ -99,6 +101,17 @@ public class FileServiceImpl implements FileService {
         }
 
         return url;
+    }
+
+    @Override
+    public FileListVO fileList(Integer userId) {
+        List<SingleFile> files = fileMapper.getFileList(userId);
+        if (files == null) {
+            throw new BizException(ErrorCode.FILE_NOT_FOUND);
+        }
+        FileListVO vo = new FileListVO();
+        vo.setResults(files);
+        return vo;
     }
 
 }

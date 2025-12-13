@@ -11,7 +11,6 @@ public class DocxParser implements DocumentParser {
     @Override
     public List<String> supportedMimeTypes() {
         return List.of(
-                "application/msword",
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         );
     }
