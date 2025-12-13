@@ -1,7 +1,6 @@
 package anthony.tikax.mapper;
 
 import anthony.tikax.domain.model.UploadFileDO;
-import anthony.tikax.dto.file.response.FileListVO;
 import anthony.tikax.dto.file.response.SingleFile;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
