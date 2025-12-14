@@ -1,5 +1,6 @@
 package anthony.tikax.service;
 
+import anthony.tikax.dto.file.response.FileListVO;
 import anthony.tikax.dto.file.response.FileVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,4 +13,6 @@ public interface FileService {
     void deleteFile(Integer userId, String fileName);
 
     String getPresignedUrl(Integer userId, String fileName);
+
+    FileListVO fileList(Integer userId);
 }

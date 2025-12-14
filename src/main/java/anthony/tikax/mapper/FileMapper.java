@@ -1,10 +1,11 @@
 package anthony.tikax.mapper;
 
 import anthony.tikax.domain.model.UploadFileDO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import anthony.tikax.domain.service.chunk.Chunk;
+import anthony.tikax.dto.file.response.SingleFile;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface FileMapper {
@@ -25,4 +26,11 @@ public interface FileMapper {
 
     @Update("delete from file_upload where user_id = #{userId} and file_name = #{fileName}")
     Boolean deleteFile(Integer userId, String fileName);
+
+    // 返回 List<Map<String, Object>>
+    @Select("select file_name, total_size from file_upload where user_id = #{userId}")
+    List<SingleFile> getFileList(Integer userId);
+
+    int batchInsert(@Param("chunks") List<Chunk> chunks);
+
 }

@@ -3,6 +3,7 @@ package anthony.tikax.domain.service;
 import anthony.tikax.context.FileContextTL;
 import anthony.tikax.domain.model.FileProcessingContext;
 import anthony.tikax.domain.model.UploadFileDO;
+import anthony.tikax.domain.service.chunk.ChunkService;
 import anthony.tikax.dto.file.response.FileResult;
 import anthony.tikax.exception.BizException;
 import anthony.tikax.exception.ErrorCode;
@@ -26,6 +27,7 @@ public class ProcessSingleFile {
     private final FileRecordServiceImpl fileRecordServiceImpl;
     private final FileMapper fileMapper;
     private final FileParser fileParser;
+    private final ChunkService chunkService;
 
     /**
      * 处理单个上传文件的主要方法。
@@ -76,6 +78,9 @@ public class ProcessSingleFile {
 
         //3. 解析文件内容为纯文本格式
         String plainText = fileParser.parse(FileContextTL.get());
+
+        //new: 文本 chunk 处理
+        chunkService.processAndSave(plainText, fileMd5);
 
         //4. 将解析后的纯文本插入数据库中
         fileMapper.insertPlainText(uploadFileDO.getFileMd5(), plainText);

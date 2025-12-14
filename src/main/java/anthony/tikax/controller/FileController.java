@@ -1,5 +1,6 @@
 package anthony.tikax.controller;
 
+import anthony.tikax.dto.file.response.FileListVO;
 import anthony.tikax.dto.file.response.FileVO;
 import anthony.tikax.entity.Result;
 import anthony.tikax.service.FileService;
@@ -49,5 +50,14 @@ public class FileController {
 
         String url = fileService.getPresignedUrl(userId, fileName);
         return Result.success(url);
+    }
+
+    @GetMapping("/fileList")
+    public Result<FileListVO> fileList(
+            @RequestParam("userId") Integer userId
+    ) {
+
+        FileListVO fileListVO = fileService.fileList(userId);
+        return Result.success(fileListVO);
     }
 }

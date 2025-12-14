@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="anthony.tikax.mapper.FileMapper">
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO document_chunks
+        (
+        chunk_id,
+        file_md5,
+        chunk_index,
+        chunk_text,
+        chunk_size,
+        created_at
+        )
+        VALUES
+        <foreach collection="chunks" item="chunk" separator=",">
+            (
+            #{chunk.chunkId},
+            #{chunk.fileMd5},
+            #{chunk.chunkIndex},
+            #{chunk.chunkText},
+            #{chunk.chunkSize},
+            #{chunk.createdAt}
+            )
+        </foreach>
+    </insert>
+
+
+</mapper>
