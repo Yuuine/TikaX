@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//TODO: markdown 结构化解析
 @Component
 public class MarkdownParser implements DocumentParser {
     @Override
