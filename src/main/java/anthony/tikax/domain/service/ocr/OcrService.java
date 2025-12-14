@@ -1,4 +1,4 @@
-package anthony.tikax.domain.ocr.service;
+package anthony.tikax.domain.service.ocr;
 
 import java.io.InputStream;
 

@@ -1,6 +1,6 @@
-package anthony.tikax.domain.ocr.service.impl;
+package anthony.tikax.domain.service.ocr.impl;
 
-import anthony.tikax.domain.ocr.service.OcrService;
+import anthony.tikax.domain.service.ocr.OcrService;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;

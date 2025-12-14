@@ -1,7 +1,7 @@
 package anthony.tikax.domain.service.parser.impl;
 
 import anthony.tikax.domain.model.FileProcessingContext;
-import anthony.tikax.domain.ocr.service.OcrService;
+import anthony.tikax.domain.service.ocr.OcrService;
 import anthony.tikax.domain.service.parser.DocumentParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
