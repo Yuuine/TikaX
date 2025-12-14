@@ -118,6 +118,12 @@
             <artifactId>tika-parsers-standard-package</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <!-- Tika PDF Parser Module -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parser-pdf-module</artifactId>
+            <version>3.2.2</version>
+        </dependency>
 
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
@@ -138,12 +144,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.4.0</version>
         </dependency>
-        <!-- 支持 .doc -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.poi</groupId>-->
-<!--            <artifactId>poi-scratchpad</artifactId>-->
-<!--            <version>5.4.0</version>-->
-<!--        </dependency>-->
 
     </dependencies>
 
