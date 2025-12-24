@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.function.Consumer;
 
+/**
+ * !!!注意：手动分块效果非常之差，已废弃。建议使用 LangChain4jRecursiveTextChunker
+ * 使用滑动窗口分块器实现的 TextChunker。
+ */
 @Service
 public class SlidingWindowTextChunker implements TextChunker {
 

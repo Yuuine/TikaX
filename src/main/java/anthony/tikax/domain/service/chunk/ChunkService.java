@@ -1,6 +1,6 @@
 package anthony.tikax.domain.service.chunk;
 
-import anthony.tikax.domain.service.chunk.impl.SlidingWindowTextChunker;
+import anthony.tikax.domain.service.chunk.impl.LangChain4jRecursiveTextChunker;
 import anthony.tikax.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ChunkService {
 
-    private final SlidingWindowTextChunker sliddingWindowTextChunker;
+    private final LangChain4jRecursiveTextChunker langChain4jRecursiveTextChunker;
     private final FileMapper fileMapper;
 
     public void processAndSave(String text, String fileMd5) {
@@ -23,7 +23,7 @@ public class ChunkService {
         int batchSize = 100;
         var batch = new java.util.ArrayList<Chunk>(batchSize);
 
-        sliddingWindowTextChunker.chunkStream(text, fileMd5, chunk -> {
+        langChain4jRecursiveTextChunker.chunkStream(text, fileMd5, chunk -> {
             batch.add(chunk);
             if (batch.size() >= batchSize) {
                 fileMapper.batchInsert(batch);
