@@ -16,11 +16,20 @@ TikaX 是一个基于 Apache Tika 的智能文档处理平台，能够识别、�
 
 3. **文本处理**：
     - 提取文档中的纯文本内容
-    - 文本分块处理（滑动窗口算法）
+    - 文本分块处理
 
 4. **用户认证**：
     - 用户注册与登录
     - 基于 Spring Security 的安全控制
+
+**可配置项**
+
+```yaml
+tikax:
+  text-chunker:
+    chunk-size: 512  # 分块字符数
+    overlap: 100     # 重叠字符数 
+```
 
 ## 示例
 
@@ -41,11 +50,6 @@ TikaX 是一个基于 Apache Tika 的智能文档处理平台，能够识别、�
 - **缓存**：Redis
 - **对象存储**：MinIO
 - **文档解析**：Apache Tika 3.2.2
-- **辅助工具**：
-    - Lombok：简化 Java 代码
-    - tess4j：OCR 文字识别
-    - commonmark：Markdown 解析
-    - Apache POI：Office 文档处理
 
 ## 功能实现流程
 
@@ -69,37 +73,10 @@ TikaX 是一个基于 Apache Tika 的智能文档处理平台，能够识别、�
 
 ### 文本分块流程
 
-1. 使用滑动窗口算法对长文本进行分割
+1. 使用 LangChain4j 对长文本进行分割处理
 2. 保持语义完整性，在句子边界处切割
 3. 添加重叠区域确保上下文连贯性
 4. 批量存储文本块到数据库
-
-## 项目依赖
-
-主要第三方依赖包括：
-
-- **Spring 生态**：
-    - spring-boot-starter-webmvc：Web MVC 框架
-    - spring-boot-starter-security：安全框架
-    - spring-boot-starter-data-redis：Redis 集成
-    - spring-boot-starter-aop：面向切面编程支持
-
-- **数据存储**：
-    - mysql-connector-j：MySQL 数据库驱动
-    - mybatis-spring-boot-starter：MyBatis 集成
-    - minio：对象存储客户端
-
-- **文档处理**：
-    - org.apache.tika:tika-core：Tika 核心库
-    - org.apache.tika:tika-parsers-standard-package：标准解析器包
-    - org.apache.tika:tika-parser-pdf-module：PDF 解析模块
-    - org.apache.poi:poi-ooxml：Office 文档处理
-    - org.commonmark:commonmark：Markdown 解析
-    - net.sourceforge.tess4j: tess4j：OCR 文字识别
-
-- **工具类**：
-    - org.projectlombok:lombok：简化代码工具
-    - commons-pool2：对象池化工具
 
 ## 表设计
 
@@ -107,7 +84,7 @@ TikaX 是一个基于 Apache Tika 的智能文档处理平台，能够识别、�
 
 * 用户信息
 
-```sql
+```mysql
 CREATE TABLE users
 (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '用户唯一标识',
@@ -125,7 +102,7 @@ CREATE TABLE users
 
 * 保存文件上传信息及状态
 
-```sql
+```mysql
 CREATE TABLE file_upload
 (
     file_md5   VARCHAR(32) PRIMARY KEY COMMENT '文件的MD5值，作为主键唯一标识文件',
@@ -137,7 +114,7 @@ CREATE TABLE file_upload
     plain_text LONGTEXT COMMENT '文件文本内容',
     status     INT          NOT NULL DEFAULT 0 COMMENT '文件上传状态：0-上传中，1-已完成',
     user_id    VARCHAR(64)  NOT NULL COMMENT '上传用户的标识符',
-    created_at TIMESTAMP             DEFAULT CURRENT_TIMESTAMP COMMENT '文件上传创建时间',
+    created_at TIMESTAMP             DEFAULT CURRENT_TIMESTAMP COMMENT '文件上传创建时间'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='文件上传记录表';    
 ```
@@ -146,7 +123,7 @@ CREATE TABLE file_upload
 
 * chunk 结果
 
-```sql
+```mysql
     CREATE TABLE document_chunks
     (
         chunk_id    BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT 'chunk唯一标识',
@@ -166,3 +143,17 @@ CREATE TABLE file_upload
 - Redis 3.2.1+
 - MinIO 对象存储服务器
 - Tesseract OCR 引擎（可选，用于图像文字识别）
+
+## 致谢
+
+- 通用文档检测与提取库 [Apache Tika](https://github.com/apache/tika)
+- PDF文档处理库 [Apache PDFBox](https://github.com/apache/pdfbox)
+- Microsoft 文档处理库 [Apache POI](https://github.com/apache/poi)
+- OCR 光学字符识别库 [Tesseract](https://github.com/tesseract-ocr/tesseract)
+- 对象存储系统 [MinIO](https://github.com/minio/minio)
+- Markdown 解析库 [CommonMark](https://github.com/commonmark/commonmark-java)
+- 语言模型框架 [LangChain4j](https://github.com/langchain4j/langchain4j)
+- Redis 客户端 [Lettuce](https://github.com/lettuce-io/lettuce-core)
+- JSON 解析库 [Jackson](https://github.com/FasterXML/jackson)
+
+

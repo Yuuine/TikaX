@@ -33,6 +33,11 @@ spring:
 server:
   port: 8080
 
+tikax:
+  text-chunker:
+    chunk-size: 512
+    overlap: 100
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

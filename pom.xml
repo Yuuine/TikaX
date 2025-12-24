@@ -124,7 +124,7 @@
             <artifactId>tika-parser-pdf-module</artifactId>
             <version>3.2.2</version>
         </dependency>
-
+        <!-- ocr -->
         <dependency>
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
@@ -145,6 +145,12 @@
             <version>5.4.0</version>
         </dependency>
 
+        <!-- langchain4j -->
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j</artifactId>
+            <version>1.9.1</version>
+        </dependency>
     </dependencies>
 
 
